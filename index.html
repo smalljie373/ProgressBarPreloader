@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProgressBarPreloader</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body onload="move()">
+    <div id="preloader">
+        <div id="percent">1%</div>
+        <div id="bar">
+            <div id="barconfrm"></div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Hello World</h1>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script>
+        const tll = gsap.timeline({
+            paused: 'true'
+        });
+        tll.to('#percent ,#bar', {
+            duration:.2,
+            opacity: 0,
+            zIndex: -1,
+        });
+        tll.to('#preloader', {
+            duration:.8,
+            width: '0%',
+        });
+        tll.from('.container', {
+            duration: 1.5,
+            y: '-150%',
+        }, '-=.2');
+        tll.to('.container h1', {
+            opacity: 1,
+            textShadow: '12px 20px rgba(255,255,255,0.23)',
+            shewY: 10,
+            y: '10%',
+            stagger: {
+                amount: .4
+            }
+        });
+        let width = 1;
+        let bar = document.getElementById("barconfrm");
+        let id;
+        const move = () => {
+            id = setInterval(frame,10);
+        };
+        const frame = () => {
+            if(width >= 100) {
+                clearInterval(id);
+                tll.play();
+            }else{
+                width++;
+                bar.style.width = width + "%";
+                document.getElementById('percent').innerHTML = width + '%';
+            }
+        };
+    </script>
+</body>
+</html>
